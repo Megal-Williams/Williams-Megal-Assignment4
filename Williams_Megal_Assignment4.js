@@ -110,7 +110,7 @@ http://jsperf.com/fors-vs-while/10 */
 // String Tests
 console.log("String Tests");
 var stringLib = StringLibrary();
-console.log(stringLib.isPhoneNumUS("256-655-0016"));
+console.log(stringLib.isPhoneNumUS("404-452-4331"));
 console.log(stringLib.isEmailAddr("test@test.com"));
 console.log(stringLib.isUrl("http://test.com"));
 console.log(stringLib.splitStrUpper("Megal Williams testing test"));
