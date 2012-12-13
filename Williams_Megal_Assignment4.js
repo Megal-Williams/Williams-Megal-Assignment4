@@ -50,10 +50,51 @@ var StringLibrary = function () {
 	};
 };
 
-// Array Library
+// // Number Library
+var NumberLibrary = function () {
+	// Change a number to use a specific amount of decimal places
+	var formatDecimal = function (num,afterDecimal) {
+        return Number(num.toFixed(afterDecimal));
+    };
+    // Checks to see is the number above or below a number is within a certain percent
+	var fuzzyNum = function (num,compareNum,percent) {
+		var percentage = (num/compareNum) * 100;
+		if ((num >= compareNum && percentage >= percent) || (num < compareNum && percentage < percent)) {
+			return false;
+		} else {
+			return true;
+		};
+	};
+	// Input two dates using new Date(yyyy,mm,dd)
+	// Output format [Days,Hours,Minutes,Seconds] conversion for each at specific index shown
+    var timeBtDates = function (date1,date2) {
+		var results = [];
+		var difference = (date1 > date2) ? date1.getTime() - date2.getTime() : date2.getTime() - date1.getTime();
+		results[3] = difference / 1000;
+		results[2] = results[3] / 60;
+		results[1] = results[2] / 60;
+		results[0] = results[1] / 24;
+		return results;
+
+    };
+    // Changes a string "x" to an integer value x
+    var strToNum = function (num) {
+		return Number(num);
+    };
+
+	return {
+		"formatDecimal" : formatDecimal,
+		"fuzzyNum" : fuzzyNum,
+		"timeBtDates" : timeBtDates,
+		"strToNum" : strToNum
+
+	};
+};
+
+// // Array Library
 var ArrayLibrary = function () {
-	// Smallest value in array greater than a given number
-	// null is returned if the number is not within the range of numbers in the array
+	/* Smallest value in array greater than a given number
+	 null is returned if the number is not within the range of numbers in the array*/
 	var smValGNumInArray = function (array,num) {
 		array.sort(function(a,b){return a-b;});
 		if (num >= array[0] && num < array[array.length-1]) {
@@ -65,8 +106,8 @@ var ArrayLibrary = function () {
 			return null;
 		};
 	};
-// Add up and total only numbers in an array
-	// edited to not use !isNaN because a string number ex. "10" would return as a number not a string
+	/* edited to not use !isNaN because a string number ex. "10" would return as a number 
+	not a string. */
 	var totalValNumInArray = function (array) {
 		var total = 0;
 		for (var i = 0, j = array.length; i < j; i++) {
@@ -80,24 +121,10 @@ var ArrayLibrary = function () {
 	var sortKeyByValInArray = function (array,givenKey) {
 		return (array.sort(function(a,b){return a[givenKey] - b[givenKey];}));
 	};
-	// Finds index of duplicate items in an array *My own addition to the list
-	var dupInArray = function (findItem,array) {
-		var holdIndex = [], index;
-		for (var i = 0, j = array.length; i < j; i++) {
-			if (array[i] === findItem) {
-				index = array.indexOf(array[i],i);
-				holdIndex.push(index);
-			};
-		};
-		return holdIndex;
-	};
-
-	return {
+	
 		"smValGNumInArray" : smValGNumInArray,
-		"lrgValLNumInArray" : lrgValLNumInArray,
 		"totalValNumInArray" : totalValNumInArray,
 		"sortKeyByValInArray" : sortKeyByValInArray,
-		"dupInArray" : dupInArray
 	};
 };
 
@@ -117,17 +144,28 @@ console.log(stringLib.splitStrUpper("Megal Williams testing test"));
 console.log(stringLib.swapSeparator("a,b,c","/"));
 console.log(" ");
 
+// Number Tests
+console.log("Number Tests");
+var numberLib = NumberLibrary();
+console.log(numberLib.formatDecimal(2.116,2));
+console.log(numberLib.fuzzyNum(10,5,50));
+console.log(numberLib.fuzzyNum(5,10,50));
+var date1 = new Date(2012,9,22);
+var date2 = new Date(2012,5,19);
+var timeConversion = numberLib.timeBtDates(date1,date2);
+console.log("Difference in days: " + timeConversion[0] + ", in hours: " + timeConversion[1]);
+console.log(numberLib.strToNum("5678"));
+console.log(" ");
+
 // Array Tests
 console.log("Array Tests");
 var arrayLib = ArrayLibrary();
 var numList = [1,5,9,10,12,2,4,8];
 console.log(arrayLib.smValGNumInArray(numList,1));
-console.log(arrayLib.lrgValLNumInArray(numList,6));
 var randomList = [10,"apple","orange",10,20,"10"];
 console.log(arrayLib.totalValNumInArray(randomList));
 var arrayObjects = [{a:6},{a:1},{a:8},{a:2},{a:3},{a:5},{a:4},{a:7},{b:3},{b:5},{b:1},{b:4},{b:2},{b:6},{c:3},{c:5},{c:1},{c:4},{c:2},{c:6}];
 console.log(arrayLib.sortKeyByValInArray(arrayObjects,"a"));
-var arrayList = ["Tim","Angel", 1050, 1050, 1050, "Steven",1050,30,10];
-console.log(arrayLib.dupInArray(1050,arrayList));
+
 
 
